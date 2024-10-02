@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import { Produit } from '../model/produit.model';
+import { ProduitService } from '../services/produit.service';
 
 @Component({
   selector: 'app-produits',
   templateUrl: './produits.component.html',})
 export class ProduitsComponent {
-  produits : string[];
-  constructor() {
-    this.produits = ["PC dell", "Mac", "Imprimante HP", "Tablette Samsung"];
-  }
+
+  produits : Produit[];
+
+  constructor(private produitService : ProduitService) {
+    this.produits = produitService.listeProduits();
+   }
 }
