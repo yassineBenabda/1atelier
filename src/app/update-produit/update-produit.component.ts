@@ -11,14 +11,12 @@ import { Produit } from '../model/produit.model';
 export class UpdateProduitComponent {
   currentProduit = new Produit();
   constructor( private activatedRoute: ActivatedRoute, private router :Router, private produitService: ProduitService) { }
-  ngOnInit() : void {
-    console.log(this.activatedRoute.snapshot.params['id']);
-    this.currentProduit = this.produitService.consulterProduit(this.activatedRoute.snapshot. params['id']);
-    console.log(this.currentProduit);
+  ngOnInit() {
+    this.produitService.consulterProduit(this.activatedRoute.snapshot.params['id']).subscribe( prod =>{ this.currentProduit = prod; } ) ;
   }
-  updateProduit(){ 
-  //console.log(this.currentProduit);
-  this.produitService.updateProduit(this.currentProduit);
-  this.router.navigate(['produits'])
+  updateProduit() {
+    this.produitService.updateProduit(this.currentProduit).subscribe(prod => {
+    this.router.navigate(['produits']); }
+    );
   }
 }

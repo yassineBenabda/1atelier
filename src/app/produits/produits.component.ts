@@ -7,15 +7,28 @@ import { ProduitService } from '../services/produit.service';
   templateUrl: './produits.component.html',})
 export class ProduitsComponent {
 
-  produits : Produit[];
+  produits! : Produit[];
 
   constructor(private produitService : ProduitService) {
-    this.produits = produitService.listeProduits();
+    //this.produits = produitService.listeProduits();
   }
-  supprimerProduit(p: Produit) {
-  //console.log(p);
-  let conf = confirm("Etes-vous sûr ?");
-  if (conf)
-  this.produitService.supprimerProduit(p);
+
+  ngOnInit(): void {
+    this.chargerProduits();
   }
+  chargerProduits(){
+    this.produitService.listeProduits().subscribe(prods => {
+    console.log(prods);
+    this.produits = prods;
+    });
+  }
+  supprimerProduit(p: Produit){
+    let conf = confirm("Etes-vous sûr ?");
+    if (conf)
+    this.produitService.supprimerProduit(p.idProduit!).subscribe(() => {
+    console.log("produit supprimé");
+    this.chargerProduits();
+    });
+  }
+  
 }
